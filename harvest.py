@@ -6,6 +6,8 @@ import database
 __author__ = 'Ash'
 
 def main():
+    print('NOTE: The current API doesn\'t support full date for start and end period, so only the year will be used')
+    
     # Add command line arguments
     parser = argparse.ArgumentParser(description="App fetches NASS dataset from USDA and stores in PostGreSQL database")
     parser.add_argument('-s', '--start_date', help='Start date of the data', required=True)
@@ -49,7 +51,6 @@ def main():
     # API can only return a maximum of 50000 records. If query will exceed limit, then change the filter
     if int(result['count']) <= apiservice.API_LIMIT:
         # run the call once
-        print('few...')
         perform_task(year_filter, db)
         
     else:
@@ -63,7 +64,6 @@ def main():
         
         # Add 'STATE' to the filter
         for state in states:
-            print('Fetch for: ' + state)
             query = year_filter + '&state_name=' + state
             
             # Get the number of results that will be returned for this latest filter and ignore 0 filters
@@ -94,10 +94,8 @@ def get_year(date):
     
     index = '-' in date
     if index:
-        print('full date')
         return int(date[0:index])
     else:
-        print('year only')
         size = len(date)
         if len(date) <= 4:
             return int(date)
