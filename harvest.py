@@ -65,19 +65,21 @@ def main():
         # Add 'STATE' to the filter
         for state in states:
             query = year_filter + '&state_name=' + state
-            
-            # Get the number of results that will be returned for this latest filter and ignore 0 filters
-            response = apiservice.get_count(query)
-            if response.status_code != 200:
-                raise Exception('GET /get_counts/ {}'.format(response.status_code))
-            
-            count = response.json()
-            if int(count['count']) != 0:
-                perform_task(query, db)
+            perform_task(query, db, True)
        
     
     
-def perform_task(query, db):
+def perform_task(query, db, check_count=False):
+    if check_count:
+        # Get the number of results that will be returned for this latest filter and ignore 0 filters
+        response = apiservice.get_count(query)
+        if response.status_code != 200:
+            raise Exception('GET /get_counts/ {}'.format(response.status_code))
+        
+        count = response.json()
+        if int(count['count']) == 0:
+            return
+            
     response = apiservice.get_results(query)
     if response.status_code != 200:
         raise Exception('GET /api_GET/ {}'.format(response.status_code))

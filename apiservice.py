@@ -2,7 +2,7 @@ import requests
 import config
 
 # The limit of results that the API will return
-API_LIMIT = 1000
+API_LIMIT = 50000
 
 # Base filters as part of the requirements for the challenge
 base_filters   = '&sector_desc=CROPS&commodity_desc=CORN&agg_level_desc=COUNTY'
