@@ -35,8 +35,6 @@ def main():
     # Get start and end years
     start = get_year(start_date)
     end   = get_year(end_date)
-    print(start)
-    print(end)
     
     # Build up the year filter for the API query
     year_filter = ''
@@ -96,9 +94,7 @@ def perform_task(query, db, check_count=False):
 def get_year(date):
     """ Get the year from the date """
     
-    print(date)
     index = '-' in date
-    print(index)
     if index:
         index = date.index('-')
         return int(date[0:index])
